@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tekken Tournament</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{color-scheme:dark;--bg:#0b0610;--pink:#ff2d6f;--gold:#ffd25a;--tx:#fff;--mut:#a98fb0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(900px 500px at 15% -10%,#7a1038,transparent),radial-gradient(800px 500px at 100% 0,#3a0f4a,transparent),var(--bg);color:var(--tx);font-family:Rajdhani,"Segoe UI",sans-serif;min-height:100vh;padding:16px 16px 24px}
+h1{text-align:center;font-size:clamp(26px,5vw,44px);letter-spacing:3px;margin:8px 0 2px;font-style:italic;text-transform:uppercase;text-shadow:0 0 18px var(--pink)}
+h1 span{color:var(--pink)}
+.sub{text-align:center;color:var(--mut);margin-bottom:14px;letter-spacing:4px;text-transform:uppercase;font-size:13px}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,#ffffff07 0 1px,transparent 1px 4px)}
+.eyebrow{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px;font-weight:700;font-size:clamp(14px,3vw,20px);letter-spacing:.55em;padding-left:.55em;color:var(--gold);text-shadow:0 0 14px #ffd25a99}
+.eyebrow i{flex:0 1 110px;height:3px;background:linear-gradient(90deg,transparent,var(--gold));transform:skewX(-35deg)}
+.eyebrow i:last-child{background:linear-gradient(270deg,transparent,var(--gold))}
+@keyframes pulse{50%{box-shadow:0 0 40px #ffd25acc}}
+.champ{animation:pulse 2s infinite}
+.fab{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:30;width:44px;height:44px;border-radius:10px;border:1px solid #5a2a60;background:#2a1230;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 0 14px #ff2d6f55}
+.fab.f2{right:64px}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(340px,92vw);background:#150a1aee;backdrop-filter:blur(8px);border-left:1px solid #5a2a60;padding:calc(20px + env(safe-area-inset-top,0px)) 14px 80px;overflow:auto;transform:translateX(105%);transition:transform .25s;z-index:25}
+.drawer.open{transform:none}
+.drawer h3{margin:0 0 6px;font-size:20px;letter-spacing:3px;color:var(--pink);text-transform:uppercase}
+.drawer h4{margin:14px 0 6px;font-size:13px;letter-spacing:2px;color:var(--mut);text-transform:uppercase}
+.hint{color:var(--mut);font-size:13px;margin:6px 0}
+.pr{display:grid;grid-template-columns:1fr auto;gap:2px 8px;margin-bottom:8px}
+.pr label{grid-column:1/3;font-size:11px;color:var(--mut)}
+.pr input{width:100%;background:#0b0610;border:1px solid #4a2450;color:var(--tx);border-radius:5px;padding:6px;font:700 15px Rajdhani,sans-serif}
+.pr button{font:700 13px Rajdhani,sans-serif;background:#4a1020;color:#ff8fa8;border:1px solid #8a2a40;border-radius:5px;padding:0 12px;cursor:pointer}
+.pr.off input{opacity:.5;text-decoration:line-through}
+.pr.off button{background:#10301c;color:#7aeaa0;border-color:#2a7a4a}
+.drawer .reset{margin-top:14px;width:100%}
+.mt.boss .p.l{background:linear-gradient(90deg,#7c7c84,#3b3b42);color:#c8c8cc}
+.mt .p.dq,.mt.r .p.dq{background:linear-gradient(90deg,#5a2a32,#2a1a1e);color:#d99}
+.p.dq span{text-decoration:line-through}
+.dqb{font-size:10px;letter-spacing:1px;background:#e5334f;color:#fff;padding:1px 5px;border-radius:3px;font-style:normal}
+.fab.f3{right:116px}
+.fab{width:48px;height:52px;border:0;border-radius:0;box-shadow:none;padding:0;display:grid;place-items:center;background:linear-gradient(160deg,#ff5c93,#9c0f43);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);transition:filter .15s}
+.fab::before{content:"";position:absolute;inset:2px;background:linear-gradient(160deg,#2a1230,#150a1a);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.fab:hover{filter:brightness(1.3)}
+.fab svg{position:relative;width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fab,.fab.f2,.fab.f3{top:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:40px;height:44px}
+.fab{right:12px}
+.fab.f2{right:56px}
+.fab.f3{right:100px}
+.lb{letter-spacing:.8px}
+.lb b{color:var(--gold);font-weight:700}
+.mt.r .lb{flex-direction:row-reverse}
+.modal{position:fixed;inset:0;background:#000b;backdrop-filter:blur(4px);z-index:40;display:none;align-items:flex-start;justify-content:center;padding:calc(20px + env(safe-area-inset-top,0px)) 14px 20px;overflow:auto}
+.modal.open{display:flex}
+.rcard{position:relative;width:min(640px,100%);background:#150a1a;border:1px solid #5a2a60;border-radius:10px;padding:22px 22px 26px;box-shadow:0 0 30px #ff2d6f44}
+.rcard h2{margin:0;text-align:center;font-size:28px;letter-spacing:3px;text-transform:uppercase;font-style:italic;color:var(--pink);text-shadow:0 0 14px var(--pink)}
+.rsub{text-align:center;color:var(--gold);letter-spacing:4px;font-size:13px;margin:2px 0 14px;text-transform:uppercase}
+.rcard h4{margin:16px 0 4px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-size:15px}
+.rcard ul{margin:0;padding-left:20px;color:#e9dcec;line-height:1.45}
+.rcard li{margin:3px 0}
+.rcard .x{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:8px;border:1px solid #5a2a60;background:#2a1230;color:#fff;cursor:pointer}
+.tabs{display:flex;gap:8px;justify-content:center;margin-bottom:14px}
+.tabs button,.reset{font:700 16px Rajdhani,sans-serif;letter-spacing:1px;text-transform:uppercase;color:var(--tx);background:#2a1230;border:1px solid #5a2a60;padding:9px 18px;border-radius:6px;cursor:pointer}
+.tabs button.on{background:var(--pink);border-color:var(--pink);box-shadow:0 0 16px #ff2d6f88}
+.champ{text-align:center;margin:6px auto 14px;padding:10px;max-width:420px;border:1px solid var(--gold);border-radius:8px;background:#2a2008;color:var(--gold);font-weight:700;font-size:22px;letter-spacing:2px;text-transform:uppercase;box-shadow:0 0 22px #ffd25a44}
+.champ small{display:block;font-size:12px;color:#d9b95f}
+details{max-width:900px;margin:0 auto 14px;background:#150a1a;border:1px solid #3a1a42;border-radius:8px;padding:8px 14px}
+summary{cursor:pointer;font-weight:700;color:var(--mut);letter-spacing:1px}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.roster label{font-size:12px;color:var(--mut);display:block}
+.roster input{width:100%;background:#0b0610;border:1px solid #4a2450;color:var(--tx);border-radius:5px;padding:6px;font:700 15px Rajdhani,sans-serif}
+.scroll{overflow-x:auto;padding:4px 0 12px}
+.cv{position:relative;margin:0 auto}
+.cv svg{position:absolute;left:0;top:0;overflow:visible}
+.cv path{fill:none;stroke:#c79ab4;stroke-opacity:.55;stroke-width:2}
+.cv path.lit{stroke:#ff2d6f;stroke-opacity:1;stroke-width:3;filter:drop-shadow(0 0 5px #ff2d6f)}
+.hd{position:absolute;font-size:12px;letter-spacing:2px;color:var(--mut);text-transform:uppercase;text-align:center}
+.tt{position:absolute;left:0;font-size:18px;letter-spacing:3px;color:var(--pink);text-transform:uppercase;font-weight:700}
+.mt{position:absolute;width:196px}
+.lb{font-size:11px;letter-spacing:2px;color:var(--mut);height:16px;line-height:16px;text-transform:uppercase;white-space:nowrap}
+.mt.boss .lb{color:var(--gold)}
+.mt.r .lb{text-align:right}
+.p{display:flex;align-items:center;gap:8px;height:26px;margin-bottom:2px;padding:0 14px 0 4px;cursor:pointer;font-weight:700;font-size:15px;white-space:nowrap;background:linear-gradient(90deg,#ff2d6f,#9c0f43);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 100%,0 100%);transition:filter .15s}
+.p:hover{filter:brightness(1.2)}
+.p span{flex:1;overflow:hidden;text-overflow:ellipsis}
+.hx{width:20px;height:22px;flex:none;display:grid;place-items:center;font-style:normal;font-size:11px;background:#2a1a32;color:#fff;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.mt.r .p{flex-direction:row-reverse;padding:0 4px 0 14px;text-align:right;background:linear-gradient(270deg,#ff2d6f,#9c0f43);clip-path:polygon(12px 0,100% 0,100% 100%,0 100%)}
+.mt.boss .p{background:linear-gradient(90deg,#ffb52a,#a3600c);color:#1a0d00}
+.p.w,.mt.r .p.w{background:linear-gradient(90deg,#ff7aa6,#ff2d6f);text-shadow:0 0 8px #fff8}
+.mt.r .p.w{background:linear-gradient(270deg,#ff7aa6,#ff2d6f)}
+.mt.boss .p.w{background:linear-gradient(90deg,#ffe27a,#ffb52a)}
+.p.l,.mt.r .p.l{background:linear-gradient(90deg,#7c7c84,#3b3b42);color:#c8c8cc}
+.mt.r .p.l{background:linear-gradient(270deg,#7c7c84,#3b3b42)}
+.p.ph,.mt.r .p.ph{background:#1c1022;color:#6b5470;font-weight:500;font-style:italic;cursor:default;filter:none}
+.note{max-width:900px;margin:0 auto;color:var(--mut);font-size:14px;text-align:center}
+.reset{display:block;margin:12px auto 0;font-size:13px}
+</style></head><body>
+
+<div class="eyebrow"><i></i><span>BIOWEEK</span><i></i></div>
+<h1>Tekken <span>Tournament</span></h1>
+
+<div class="tabs"><button id="t-show" class="on">Showmatch</button><button id="t-main">Main Event</button></div>
+<div id="app"></div><button class="fab" id="fab" title="Players / DQ"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.8-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.3c3 .1 5 2.2 5 5.2"/></svg></button><button class="fab f2" id="fs" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button class="fab f3" id="rl" title="Rules"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h7"/></svg></button><div class="drawer" id="dw"></div>
+<div class="modal" id="rm"><div class="rcard"><button class="x" title="Close">✕</button>
+<h2>Rules &amp; Regulations</h2><p class="rsub">Tekken 8 · BIOWEEK</p>
+<h4>1 · Game &amp; Settings</h4><ul><li>All matches are played on the latest version of Tekken 8, using the default match settings.</li><li>This is an in-person event.</li><li>Stages are chosen at random.</li></ul>
+<h4>2 · Match Format</h4><ul><li><b>First to 3 (FT3)</b> for most matches: the first player to win 3 rounds takes the match.</li><li><b>First to 5 (FT5)</b> for the Upper Final, Lower Final, Grand Finals, Bracket Reset, and the Showmatch Grand Finals, Faculty Showmatch and Final Boss Match: the first player to win 5 rounds takes the match.</li><li>Each match is one continuous game with no rematch screen, so the same characters and stage are used for the whole match.</li></ul>
+<h4>3 · Characters &amp; Skins</h4><ul><li>You may choose any skin available in the game, as long as it is not suggestive.</li><li>Characters stay the same for the whole match.</li></ul>
+<h4>4 · Controls</h4><ul><li>Special Style (LB / L1) is <b>forbidden</b>. Even though it is part of the game, we are all here to button mash!</li><li>Using Special Style counts as a warning.</li><li>You may bring your own controller. Tell the organizers before the tournament starts so we can check if it is compatible.</li><li>Turbo or macro controllers are not allowed.</li></ul>
+<h4>5 · Conduct &amp; Warnings</h4><ul><li>No bad words toward the opponent, staff or audience.</li><li>No trash talking. Maintain sportsmanship at all times, win or lose.</li><li>Cheering, screaming and shouting are fine, as long as they stay respectful and are not aimed at the opponent.</li><li><b>3 warnings = automatic disqualification.</b> Bad words and trash talking each count as a warning, and warnings carry over for the whole tournament.</li><li>Respect your opponent: shake hands (or GG) before and after.</li><li><b>No physical fights.</b> No hitting, pushing or any physical contact, and not even threatening to. No throwing or slamming of controllers or equipment.</li></ul>
+<h4>6 · No Pausing</h4><ul><li>You cannot pause the game mid-match, especially as a tactic.</li><li>A deliberate pause gives the round to your opponent and counts as a warning.</li><li>If you paused by accident, tell a judge right away. The judge decides if the round is replayed.</li></ul>
+<h4>7 · Match Flow</h4><ul><li>Be at the station when your match is called. After 5 minutes of no-show, you forfeit.</li><li>Leaving or quitting mid-match counts as a forfeit.</li></ul>
+<h4>8 · Disqualification</h4><ul><li>A player is disqualified for 3 warnings, cheating, serious unsportsmanlike behavior, or any physical altercation or threat of one. Their opponent advances automatically.</li></ul>
+<h4>9 · Disputes</h4><ul><li>Raise any concern before the next game starts. The judges' decision is final.</li></ul>
+</div></div>
+
+<script>
+const W=196,CW=226,U=84,H=70,T0=84,yo=9;
+function mk(){
+ const A=(M,id,x,y,f,a,b,lb,e)=>M.push({id,x,y,f,a,b,lb,...e});
+ const S=[];
+ A(S,"Q1",0,0,0,"s0","s2","Match 1");A(S,"Q2",0,1,0,"s4","s7","Match 2");
+ A(S,"Q3",4,0,0,"s3","s5","Match 3");A(S,"Q4",4,1,0,"s1","s6","Match 4");
+ A(S,"S1",1,null,["Q1","Q2"],"w:Q1","w:Q2","Semifinal 1");A(S,"S2",3,null,["Q3","Q4"],"w:Q3","w:Q4","Semifinal 2");
+ A(S,"GF",2,null,["S1","S2"],"w:S1","w:S2","Grand Finals");
+ A(S,"BOSS",2,2,["GF","FM"],"w:GF","w:FM","Final Boss Match",{boss:1});
+ A(S,"FM",2,3.5,0,"s8","s9","Faculty Showmatch");
+ const show={title:"Showmatch",names:["EXE 1","EXE 2","ACAD 1","ACAD 2","TDD 1","TDD 2","SPORTS","YR LVL REPRE","Sir Flores","Ma’am Kits"],
+  tags:["EXE","EXE","ACAD","ACAD","TDD","TDD","SPORTS","YR LVL REPRE","Faculty","Faculty"],win:{},m:S,final:"BOSS",cols:5,mid:2,
+  hd:[[0,0,"Eliminations"],[4,0,"Eliminations"],[1,.5,"Semifinals"],[3,.5,"Semifinals"]],tt:[]};
+ const o=["1STYR 1","3RDYR 2","2NDYR 3","4THYR 1","3RDYR 4","1STYR 2","4THYR 3","2NDYR 1","1STYR 3","4THYR 2","3RDYR 1","2NDYR 4","2NDYR 2","1STYR 4","4THYR 4","3RDYR 3"];
+ const M=[];
+ for(let i=0;i<8;i++)A(M,"U"+(i+1),0,i,0,"s"+2*i,"s"+(2*i+1),"Upper R1 · M"+(i+1));
+ for(let i=0;i<4;i++)A(M,"U"+(9+i),1,null,["U"+(2*i+1),"U"+(2*i+2)],"w:U"+(2*i+1),"w:U"+(2*i+2),"Upper R2");
+ A(M,"U13",2,null,["U9","U10"],"w:U9","w:U10","Upper Semi");A(M,"U14",2,null,["U11","U12"],"w:U11","w:U12","Upper Semi");
+ A(M,"U15",3,null,["U13","U14"],"w:U13","w:U14","Upper Final");
+ for(let i=0;i<4;i++)A(M,"L"+(i+1),0,yo+i,0,"l:U"+(2*i+1),"l:U"+(2*i+2),"Lower R1");
+ [["L5","L1","U12"],["L6","L2","U11"],["L7","L3","U10"],["L8","L4","U9"]].forEach(r=>A(M,r[0],1,null,[r[1]],"w:"+r[1],"l:"+r[2],"Lower R2"));
+ A(M,"L9",2,null,["L5","L6"],"w:L5","w:L6","Lower R3");A(M,"L10",2,null,["L7","L8"],"w:L7","w:L8","Lower R3");
+ A(M,"L11",3,null,["L9"],"w:L9","l:U14","Lower R4");A(M,"L12",3,null,["L10"],"w:L10","l:U13","Lower R4");
+ A(M,"L13",4,null,["L11","L12"],"w:L11","w:L12","Lower R5");A(M,"L14",5,null,["L13"],"w:L13","l:U15","Lower Final");
+ A(M,"G1",6,null,["U15","L14"],"w:U15","w:L14","Grand Finals",{boss:1,yf:"U15"});
+ A(M,"G2",7,null,["G1"],"w:U15","w:L14","Bracket Reset",{boss:1,cond:1,yf:"U15"});
+ const main={title:"Main Event",names:o,tags:o.map((_,i)=>"Slot "+(i+1)),win:{},m:M,final:"G1",cols:8,
+  hd:[[0,0,"Round 1"],[1,.5,"Round 2"],[2,1.5,"Semifinals"],[3,3.5,"Upper Final"],
+      [0,yo,"Lower R1"],[1,yo,"Lower R2"],[2,yo+.5,"Lower R3"],[3,yo+.5,"Lower R4"],[4,yo+1.5,"Lower R5"],[5,yo+1.5,"Lower Final"],
+      [6,3.5,"Grand Finals"],[7,3.5,"Reset (if needed)","G2"]],
+  tt:[["Upper Bracket",0],["Lower Bracket",yo]]};
+ return{show,main};
+}
+let S=mk(),cur="show";
+const g=(t,id)=>t.m.find(x=>x.id==id);
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+function who(t,s){
+ if(!s.includes(":"))return t.names[+s.slice(1)]||null;
+ const [k,id]=s.split(":"),w=t.win[id];if(!w)return null;
+ const m=g(t,id),a=who(t,m.a),b=who(t,m.b);
+ return k=="w"?w:(w==a?b:a);
+}
+function vis(t,m){if(!m.cond)return true;const w=t.win.G1;return !!w&&w==who(t,g(t,"G1").b);}
+function clean(t){let ch=true;while(ch){ch=false;for(const id in t.win){const m=g(t,id),w=t.win[id];
+ if(w!=who(t,m.a)&&w!=who(t,m.b)||!vis(t,m)){delete t.win[id];delete AU(t)[id];ch=true}}}}
+const BO5=["U15","L14","GF","BOSS","FM","G1","G2"];function bo(m){return BO5.includes(m.id)?"FT5":"FT3"}
+function D(t){return t.dq||(t.dq={})}
+function AU(t){return t.auto||(t.auto={})}
+function isDQ(t,n){return t.names.some((x,i)=>x==n&&D(t)[i])}
+function auto(t){let ch=true;while(ch){ch=false;for(const m of t.m){if(t.win[m.id]||!vis(t,m))continue;const a=who(t,m.a),b=who(t,m.b);if(!a||!b)continue;const da=isDQ(t,a),db=isDQ(t,b);if(da!=db){t.win[m.id]=da?b:a;AU(t)[m.id]=1;ch=true}}}}
+function ph(s){if(!s.includes(":"))return"Empty slot";const [k,id]=s.split(":");return(k=="w"?"Winner of ":"Loser of ")+id}
+function pick(id,n){const t=S[cur];if(AU(t)[id]||isDQ(t,n))return;if(t.win[id]==n)delete t.win[id];else t.win[id]=n;clean(t);auto(t);draw()}
+function dqTog(i){const t=S[cur];if(D(t)[i])delete D(t)[i];else D(t)[i]=true;for(const id in AU(t))delete t.win[id];t.auto={};clean(t);auto(t);draw()}
+function lay(t){const P={};
+ const go=m=>{if(P[m.id])return P[m.id];
+  let y=m.y;
+  if(m.yf)y=go(g(t,m.yf)).y;
+  else if(y==null){const ys=m.f.map(id=>go(g(t,id)).y);y=ys.reduce((a,b)=>a+b)/ys.length}
+  return P[m.id]={x:m.x*CW,y}};
+ t.m.forEach(go);return P}
+function row(t,m,s){
+ const n=who(t,s),w=t.win[m.id];
+ if(!n)return`<div class="p ph"><span>${ph(s)}</span></div>`;
+ const c=(w?(w==n?"w":"l"):"")+(isDQ(t,n)?" dq":"");
+ return`<div class="p ${c}" data-i="${m.id}" data-n="${esc(n)}"><i class="hx">${esc(n.trim().charAt(0).toUpperCase())}</i><span>${esc(n)}</span>${isDQ(t,n)?'<b class="dqb">DQ</b>':''}</div>`;
+}
+function champ(t){
+ let id=t.final;if(id=="G1"&&t.win.G1&&vis(t,g(t,"G2")))id="G2";
+ const w=t.win[id];
+ return w?`<div class="champ"><small>${cur=="show"?"Final Boss Match Winner":"Champion"}</small>👑 ${esc(w)}</div>`:"";
+}
+function draw(){
+ const t=S[cur],P=lay(t),Y=y=>T0+y*U,vm=t.m.filter(m=>vis(t,m));
+ const mx=Math.max(...vm.map(m=>P[m.id].y)),cw=t.cols*CW-(CW-W),ch=Y(mx)+H+24;
+ const path=(a,b)=>{
+  const Ya=Y(a.y),Yb=Y(b.y);
+  if(a.x==b.x){const c=a.x+W/2;return Ya<Yb?`M${c} ${Ya+H} V${Yb}`:`M${c} ${Ya} V${Yb+H}`}
+  const r=a.x<b.x,x1=r?a.x+W:a.x,x2=r?b.x:b.x+W,xm=(x1+x2)/2;
+  return`M${x1} ${Ya+H/2} H${xm} V${Yb+H/2} H${x2}`};
+ let dim="",lit="";
+ vm.forEach(m=>(m.f||[]).forEach(f=>{const d=`<path d="${path(P[f],P[m.id])}"/>`;if(t.win[f])lit+=d.replace("<path",'<path class="lit"');else dim+=d}));
+ let cv=`<div class="scroll"><div class="cv" style="width:${cw}px;height:${ch}px"><svg width="${cw}" height="${ch}">${dim}${lit}</svg>`;
+ t.tt.forEach(x=>cv+=`<div class="tt" style="top:${Y(x[1])-48}px">${x[0]}</div>`);
+ t.hd.forEach(h=>{if(h[3]&&!vis(t,g(t,h[3])))return;cv+=`<div class="hd" style="left:${h[0]*CW}px;top:${Y(h[1])-22}px;width:${W}px">${h[2]}</div>`});
+ vm.forEach(m=>{const p=P[m.id],r=t.mid!=null&&m.x>t.mid;
+  cv+=`<div class="mt ${r?"r":""} ${m.boss?"boss":""}" style="left:${p.x}px;top:${Y(p.y)}px"><div class="lb">${m.id} · ${m.lb} · <b>${bo(m)}</b></div>${row(t,m,m.a)}${row(t,m,m.b)}</div>`});
+ cv+=`</div></div>`;
+ let h=champ(t);
+ h+=cv;
+ h+=cur=="main"?`<p class="note">16 reps · Upper bracket drops losers to the Lower bracket.</p>`:`<p class="note">8 players → 4 matches → semis → Grand Finals → Final Boss Match vs the Sir Flores / Ma’am Kits winner.</p>`;
+ const a=document.getElementById("app"),sc=a.querySelector(".scroll"),sl=sc?sc.scrollLeft:0;
+ a.innerHTML=h;
+ a.querySelector(".scroll").scrollLeft=sl;
+ a.querySelectorAll(".p[data-i]").forEach(e=>e.onclick=()=>pick(e.dataset.i,e.dataset.n));
+ const dw=document.getElementById("dw");dw.classList.toggle("open",OPEN);
+ dw.innerHTML=`<h3>Bracket Controls</h3><p class="hint">Click a player on the bracket to advance them · click again to undo</p><h4>Players</h4>`+t.names.map((n,i)=>`<div class="pr${D(t)[i]?" off":""}"><label>${t.tags[i]}</label><input data-s="${i}" value="${esc(n)}"><button data-q="${i}">${D(t)[i]?"Restore":"DQ"}</button></div>`).join("")+`<p class="hint">DQ gives the opponent an automatic win. Restore to undo.</p><button class="reset" id="rs">Reset this bracket</button>`;
+ dw.querySelectorAll("input").forEach(i=>i.onchange=()=>{const k=+i.dataset.s,v=i.value.trim();if(!v||v==t.names[k])return;t.names[k]=v;clean(t);auto(t);draw()});
+ dw.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>dqTog(+b.dataset.q));
+ const rs=document.getElementById("rs");let arm=0;
+ rs.onclick=()=>{if(!arm){arm=1;rs.textContent="Tap again to confirm";setTimeout(()=>{arm=0;rs.textContent="Reset this bracket"},3000);return}const f=mk();S[cur]=f[cur];draw()};
+}
+["show","main"].forEach(k=>document.getElementById("t-"+k).onclick=()=>{cur=k;
+ document.getElementById("t-show").classList.toggle("on",k=="show");document.getElementById("t-main").classList.toggle("on",k=="main");draw()});
+let OPEN=false;
+const rm=document.getElementById("rm");document.getElementById("rl").onclick=()=>rm.classList.add("open");rm.onclick=e=>{if(e.target==rm||e.target.classList.contains("x"))rm.classList.remove("open")};
+document.getElementById("fab").onclick=()=>{OPEN=!OPEN;document.getElementById("dw").classList.toggle("open",OPEN)};
+document.getElementById("fs").onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+draw();
+</script></body></html>
